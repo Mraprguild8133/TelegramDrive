@@ -15,7 +15,7 @@ STORAGE_CHANNEL_ID = os.getenv("STORAGE_CHANNEL_ID", "-1001234567890")
 # Flask Configuration
 FLASK_ENV = os.getenv('FLASK', 'false')
 DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
-PORT= os.getenv('PORT')
+PORT = os.getenv('PORT', "8000")
         
 # Google Drive Configuration
 GOOGLE_DRIVE_CLIENT_ID = os.getenv("GOOGLE_DRIVE_CLIENT_ID")
