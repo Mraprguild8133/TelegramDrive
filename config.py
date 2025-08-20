@@ -13,9 +13,9 @@ if not BOT_TOKEN:
 STORAGE_CHANNEL_ID = os.getenv("STORAGE_CHANNEL_ID", "-1001234567890")
 
 # Flask Configuration
-self.FLASK_ENV = os.getenv('FLASK_ENV', 'production')
-self.DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
-self.PORT = int(os.getenv('PORT', 5000))
+FLASK_ENV = os.getenv('FLASK', 'false')
+DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
+PORT= os.getenv('PORT')
         
 # Google Drive Configuration
 GOOGLE_DRIVE_CLIENT_ID = os.getenv("GOOGLE_DRIVE_CLIENT_ID")
