@@ -40,12 +40,41 @@ def main():
     application.add_handler(MessageHandler(filters.VIDEO, handle_video))
     application.add_handler(MessageHandler(filters.AUDIO, handle_audio))
 
-    # Start the bot
-    logger.info("Starting bot...")
+    def set_webhook():
+    """Set webhook URL for the bot"""
     try:
-        application.run_polling(allowed_updates=["message", "callback_query"])
-    except KeyboardInterrupt:
-        logger.info("Bot stopped by user")
+        webhook_url = request.json.get('url') if request.json else None
+        if not webhook_url:
+            return jsonify({'error': 'URL is required'}), 400
+        
+        success = bot.set_webhook(webhook_url)
+        if success:
+            return jsonify({'status': 'Webhook set successfully'})
+        else:
+            return jsonify({'error': 'Failed to set webhook'}), 500
+    except Exception as e:
+        logger.error(f"Set webhook error: {str(e)}")
+        return jsonify({'error': 'Internal server error'}), 500
+
+@app.route('/stats', methods=['GET'])
+def stats():
+    """Get bot statistics"""
+    try:
+        stats = bot.get_stats()
+        return jsonify(stats)
+    except Exception as e:
+        logger.error(f"Stats error: {str(e)}")
+        return jsonify({'error': 'Failed to get stats'}), 500
+
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    debug = os.environ.get('DEBUG', 'False').lower() == 'true'
+    
+    logger.info(f"Starting Flask app on port {port}")
+    logger.info(f"Bot @{bot.bot_username} is ready to receive messages")
+    
+    try:
+        app.run(host='0.0.0.0', port=port, debug=debug)
     except Exception as e:
         logger.error(f"Bot error: {e}")
         raise
