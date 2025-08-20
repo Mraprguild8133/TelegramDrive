@@ -43,12 +43,7 @@ def main():
     # Start the bot
     logger.info("Starting bot...")
     try:
-        application.run_polling(allowed_updates=["message", "callback_query"])
+        app.run(host='0.0.0.0', port=port, debug=debug)
     except KeyboardInterrupt:
-        logger.info("Bot stopped by user")
-    except Exception as e:
-        logger.error(f"Bot error: {e}")
-        raise
-
-if __name__ == '__main__':
-    main()
+        logger.info("Shutting down...")
+        bot.stop_polling()
